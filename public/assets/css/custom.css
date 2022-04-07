@@ -1,0 +1,35 @@
+.table td, .table th{
+    padding: .40rem;
+    vertical-align: middle;
+}
+.table-bordered td, .table-bordered th{
+    border: 0px;
+}
+table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected{
+    background-color: #008755 !important;
+}
+table.dataTable.display tbody>tr.even.selected>.sorting_1, table.dataTable.order-column.stripe tbody>tr.even.selected>.sorting_1{
+    background-color: #008755 !important;
+}
+table.dataTable.display tbody>tr.odd.selected>.sorting_1, table.dataTable.order-column.stripe tbody>tr.odd.selected>.sorting_1{
+    background-color: #008755 !important;
+}
+table.table-bordered.dataTable tbody td{
+    vertical-align: middle;
+}
+div.dataTables_wrapper div.dataTables_filter{
+    float:right;
+}
+.table thead th{
+    border-bottom: 0px;
+}
+.bt-container{
+    float:left;
+    margin-bottom: 15px;
+}
+.add-new{
+    float:right;
+}
+table.dataTable{
+	/*text-transform: capitalize !important;*/
+}
