@@ -55,6 +55,9 @@
             "dont-discover": []
         }
     },
+    "files": [
+        "app/helpers.php"
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
