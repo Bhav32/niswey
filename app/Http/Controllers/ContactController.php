@@ -102,7 +102,7 @@ class ContactController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|max:120|',
             'last_name' => 'required|max:120|',
-            'phone_no' => 'required|numeric|phone:AUTO,US'
+            'phone_no' => 'required|min:11|numeric'
         ]);
         if (!$validator->fails()) {
             if(Contact::create($request->all())){
