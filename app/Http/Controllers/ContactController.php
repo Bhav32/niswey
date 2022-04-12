@@ -40,14 +40,44 @@ class ContactController extends Controller
     public function import(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:xlsx, csv',
+            'file' => 'required|mimes:xlsx,application/xml,xml',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->with('error','Please provide correct file');        
         }else{
-            Excel::import(new ContactImport, $request->file);
+            $extension = $request->file->getClientOriginalExtension();
+            if($extension == "xml"){
+                $this->xmlImport($request->file);
+            }else{
+                Excel::import(new ContactImport, $request->file);
+            }
             return redirect()->back()->with('success', 'File Imported Successfully');
+        }
+    }
+
+    private function xmlImport($file){
+        $xmlDataString = file_get_contents($file);
+        
+        $xmlObject = simplexml_load_string($xmlDataString);
+                
+        $json = json_encode($xmlObject);
+        $phpDataArray = json_decode($json, true); 
+
+        if(count($phpDataArray['contact']) > 0){
+
+            $dataArray = array();
+            
+            foreach($phpDataArray['contact'] as $index => $data){
+                
+                $dataArray[] = [
+                    "first_name" => $data['name'],
+                    "last_name" => $data['lastName'],
+                    "phone_no" => preg_replace('/^\+?1|\|1|\D/', '', ($data['phone']))
+                ];
+            }
+
+            Contact::insert($dataArray);
         }
     }
 
@@ -72,7 +102,7 @@ class ContactController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|max:120|',
             'last_name' => 'required|max:120|',
-            'phone_no' => 'required|min:11|numeric'
+            'phone_no' => 'required|numeric|phone:AUTO,US'
         ]);
         if (!$validator->fails()) {
             if(Contact::create($request->all())){
