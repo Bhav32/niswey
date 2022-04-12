@@ -23,7 +23,7 @@
 
             <div class="form-group @if ($errors->has('name')) has-error @endif">
                 {!! Form::label('phone_no', 'Contact Number') !!}
-                {!! Form::text('phone_no', $contact->phone_no, ['class' => 'form-control', 'placeholder' => 'Phone Number']) !!}
+                {!! Form::tel('phone_no', $contact->phone_no, ['class' => 'form-control', 'minlength'=> '10', 'pattern' => '[0-9]{10}', 'required' => 'required', 'placeholder' => 'Eg - 9637203938']) !!}
                 @if ($errors->has('phone_no')) <p class="help-block">{{ $errors->first('phone_no') }}</p> @endif
             </div>
         </div>
